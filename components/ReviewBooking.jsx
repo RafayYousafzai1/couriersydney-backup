@@ -19,6 +19,7 @@ export default function ReviewBooking({
   action,
   diseble,
   payment,
+  noEmail,
 }) {
   const [user, setUser] = useState([]);
   // const [edit, setEdit] = useState(edit)
@@ -132,17 +133,19 @@ export default function ReviewBooking({
                 value={formData.contact}
                 onChange={handleChange}
               />
-              <TextField
-                fullWidth
-                style={styleField}
-                name="email"
-                label="Email"
-                variant="outlined"
-                helperText="Enter email"
-                size="small"
-                value={formData.email}
-                onChange={handleChange}
-              />
+              {!noEmail ? (
+                <TextField
+                  fullWidth
+                  style={styleField}
+                  name="email"
+                  label="Email"
+                  variant="outlined"
+                  helperText="Enter email"
+                  size="small"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+              ) : null}
             </div>
 
             <div style={{ display: "flex", flexDirection: "column" }} s>

@@ -77,7 +77,7 @@ export default function MenageInvoices({ invoice, title }) {
       <TableCell>{row.service}</TableCell>
       <TableCell>{row?.currentStatus || "Pending"}</TableCell>
       <TableCell>{row?.progressInformation?.booked || "Pending"}</TableCell>
-      <TableCell>{row?.progressInformation?.delivered || "Pending"}</TableCell>
+      {/* <TableCell>{row?.progressInformation?.delivered || "Pending"}</TableCell> */}
       {/* <TableCell style={{ textTransform: "capitalize" }}>
         ${row?.totalPrice}
       </TableCell> */}
@@ -88,8 +88,8 @@ export default function MenageInvoices({ invoice, title }) {
           variant="light"
           color="blue"
           radius="md" // Set the radius to medium for rounded corners
-          size="md" // Set the size to medium for consistent height and padding
-          style={{ marginRight: 10 }} // Set custom margin-right
+          size="xs" // Set the size to medium for consistent height and padding
+          style={{ margin: 5 }} // Set custom margin-right
           onClick={() => handleEdit(row.docId)}
         >
           Edit
@@ -98,19 +98,18 @@ export default function MenageInvoices({ invoice, title }) {
           variant="light"
           color="dark"
           radius="md" // Set the radius to medium for rounded corners
-          size="md" // Set the size to medium for consistent height and padding
-          style={{ marginRight: 10 }} // Set custom margin-right
+          size="xs" // Set the size to medium for consistent height and padding
+          style={{ margin: 5 }} // Set custom margin-right
           onClick={() => router.push(`/admin/Invoices/${row.docId}/pod`)}
         >
           POD
         </Button>
-        <PdfButton invoice={row} />
-        <br />
         <Button
           variant="light"
+          style={{ margin: 5 }} // Set custom margin-right
           color="red"
           radius="md" // Set the radius to medium for rounded corners
-          size="md" // Set the size to medium for consistent height and padding
+          size="xs" // Set the size to medium for consistent height and padding
           onClick={async () => {
             await deleteDocument("place_bookings", row.docId);
             window.location.reload();
@@ -118,6 +117,8 @@ export default function MenageInvoices({ invoice, title }) {
         >
           Delete
         </Button>
+        {/* <br /> */}
+        <PdfButton size="xs" invoice={row} />
       </TableCell>
     </TableRow>
   );
@@ -141,7 +142,7 @@ export default function MenageInvoices({ invoice, title }) {
             {/* <TableCell>Time</TableCell> */}
             {/* <TableCell>Total Price</TableCell> */}
             <TableCell>Booked</TableCell>
-            <TableCell>Delivered</TableCell>
+            {/* <TableCell>Delivered</TableCell> */}
             <TableCell>Action</TableCell>
           </TableRow>
         </TableHead>

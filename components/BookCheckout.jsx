@@ -68,12 +68,12 @@ export default function BookCheckout({ formData, cat, action, back, payment }) {
         nav.push(stripe.url);
       } else {
         const res = await postInvoice(invoice, "place_bookings");
-        sendBookingEmail(invoice, res.docRefId, res.name);
+        sendBookingEmail(invoice, res, res.name);
         await Promise.all([
           addFrequentAddress(invoice?.address?.Origin),
           addFrequentAddress(invoice?.address?.Destination),
         ]);
-        nav.push(`/RecentInvoices/${res.docRefId}`);
+        nav.push(`/RecentInvoices/${res}`);
       }
     }
   };

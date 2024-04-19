@@ -94,14 +94,18 @@ export default function Page() {
       />
     );
   } else if (show === "summary") {
-    return (
-      <CheckoutSummary
-        formData={formData}
-        action={(e) => {
-          setShow(e);
-        }}
-      />
-    );
+    if (formData.items.length >= 1) {
+      return (
+        <CheckoutSummary
+          formData={formData}
+          action={(e) => {
+            setShow(e);
+          }}
+        />
+      );
+    } else {
+      alert("Please Add Items");
+    }
   }
   return (
     <>

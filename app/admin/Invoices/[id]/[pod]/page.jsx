@@ -109,20 +109,9 @@ export default function Page() {
       {invoice ? (
         <>
           <h1 style={{ marginBottom: "1rem", color: "#333" }}>
-            Invoice Details
+            One Off Bookings
           </h1>
-          <p style={{ marginBottom: "0.5rem", fontSize: "1.2rem" }}>
-            Job Type: {invoice?.userName}
-          </p>
-          <p style={{ marginBottom: "0.5rem", fontSize: "1.2rem" }}>
-            Job Number: {invoice?.totalPriceWithGST?.toFixed(2)}
-          </p>
-          <p style={{ marginBottom: "0.5rem", fontSize: "1.2rem" }}>
-            Date & Time: {invoice?.service}
-          </p>
-          <p style={{ marginBottom: "1rem", fontSize: "1.2rem" }}>
-            Customer: {invoice?.currentStatus?.booked}
-          </p>
+
           <DropzoneButton
             key={refreash}
             handleImage={(blob) => {

@@ -58,14 +58,14 @@ async function fetchPlace_booking() {
     const q = query(
       collectionRef,
       where("userEmail", "==", user.email),
-      orderBy("createdAt", "desc") // Order by creation date in descending order
+      orderBy("createdAt", "asc") // Order by creation date in ascending order
     );
     const querySnapshot = await getDocs(q);
     const documents = [];
     querySnapshot.forEach((doc) => {
       documents.push({ id: doc.id, ...doc.data() });
     });
-    fetchUserData();
+    fetchUserData(); // Assuming fetchUserData is defined elsewhere and you want to call it here
     return documents;
   } catch (error) {
     notify("Something Went Wrong", error);

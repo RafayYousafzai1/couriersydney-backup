@@ -9,7 +9,7 @@ import footerImg from "../public/pdf_footer.jpg";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-const PdfButton = ({ invoice }) => {
+const PdfButton = ({ invoice, size }) => {
   const [headerImage, setHeaderImage] = useState("");
 
   useEffect(() => {
@@ -189,7 +189,7 @@ const PdfButton = ({ invoice }) => {
       variant="filled"
       color="red"
       radius="md" // Set the radius to medium for rounded corners
-      size="md"
+      size={size || "md"}
       onClick={createPdf}
     >
       PDF

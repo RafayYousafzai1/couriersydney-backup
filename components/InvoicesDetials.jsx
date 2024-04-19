@@ -47,7 +47,7 @@ const InvoiceDetails = ({ invoice }) => {
     images,
   } = invoice;
 
-  console.log(images);
+  console.log(invoice);
 
   const [pickupAddress, setPickupAddress] = useState("Empty");
   const [dropAddress, setDropAddress] = useState("Empty");
@@ -65,9 +65,11 @@ const InvoiceDetails = ({ invoice }) => {
     { label: "Service", value: service },
     {
       label: "Total Price",
-      value: (invoice?.totalPriceWithGST + invoice.totalTollsCost || 0).toFixed(
-        2
-      ),
+      value: (
+        invoice?.totalPriceWithGST ||
+        0 + invoice?.totalTollsCost ||
+        0
+      ).toFixed(2),
     },
     { label: "Date", value: date },
     { label: "Contact", value: contact },
@@ -90,7 +92,7 @@ const InvoiceDetails = ({ invoice }) => {
   const pricesInfo = [
     {
       label: "Tolls",
-      value: invoice.totalTollsCost.toFixed(2),
+      value: invoice?.totalTollsCost,
     },
 
     {
@@ -103,7 +105,9 @@ const InvoiceDetails = ({ invoice }) => {
     },
     {
       label: "Price including GST",
-      value: (invoice?.totalPriceWithGST + invoice.totalTollsCost).toFixed(2),
+      value: (invoice?.totalPriceWithGST || 0 + invoice.totalTollsCost).toFixed(
+        2
+      ),
     },
   ];
 
@@ -120,35 +124,40 @@ const InvoiceDetails = ({ invoice }) => {
         {renderSection("Distance Information", distanceInfo)}
         {renderSection("Prices Information", pricesInfo)}
 
-        <ItemDimensions defaultItems={invoice?.items} diseble={true} add={true} />
+        <Container size={"lg"}>
+          <ItemDimensions
+            defaultItems={invoice?.items}
+            diseble={true}
+            add={true}
+          />
+          <h2>POD</h2>
 
-        <h2>POD</h2>
-
-        {images &&
-          images.map((url, index) => (
-            <div
-              key={index}
-              style={{
-                marginBottom: "1rem",
-                display: "flex",
-                justifyContent: "space-between",
-                flexWrap: "wrap",
-                width: "100%",
-              }}
-            >
-              <Image
-                src={url}
-                alt={`Image ${url}`}
+          {images &&
+            images.map((url, index) => (
+              <div
+                key={index}
                 style={{
-                  width: "100px",
-                  height: "100px",
-                  objectFit: "cover",
-                  borderRadius: "10px",
-                  marginRight: "0.5rem",
+                  marginBottom: "1rem",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  flexWrap: "wrap",
+                  width: "100%",
                 }}
-              />
-            </div>
-          ))}
+              >
+                <Image
+                  src={url}
+                  alt={`Image ${url}`}
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    objectFit: "cover",
+                    borderRadius: "10px",
+                    marginRight: "0.5rem",
+                  }}
+                />
+              </div>
+            ))}
+        </Container>
       </Paper>
     </section>
   );

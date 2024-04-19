@@ -59,14 +59,14 @@ export default function RecentInvoices({ place_booking, place_job }) {
       <TableCell>{row.docId}</TableCell>
       <TableCell>{formatTimestamp(row.createdAt)}</TableCell>
       <TableCell>$ {row.totalPrice}</TableCell>
-      <TableCell>
+      {/* <TableCell>
         {(row.progressInformation && row.progressInformation.booked) ||
           "Not Yet"}
       </TableCell>
       <TableCell>
         {(row.progressInformation && row.progressInformation.delivered) ||
           "Pending"}
-      </TableCell>
+      </TableCell> */}
       <TableCell>{row?.currentStatus || "pending"}</TableCell>
       <TableCell>
         <Button
@@ -95,8 +95,8 @@ export default function RecentInvoices({ place_booking, place_job }) {
             <TableCell>ID</TableCell>
             <TableCell>Date & Time</TableCell>
             <TableCell>Invoice</TableCell>
-            <TableCell>Booked</TableCell>
-            <TableCell>Delivered</TableCell>
+            {/* <TableCell>Booked</TableCell> */}
+            {/* <TableCell>Delivered</TableCell> */}
             <TableCell>Status</TableCell>
             <TableCell>View</TableCell>
             <TableCell>Download Invoice</TableCell>
