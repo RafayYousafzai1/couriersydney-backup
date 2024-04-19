@@ -6,15 +6,19 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import {
+  collection,
   doc,
   getDoc,
+  getDocs,
   getFirestore,
+  query,
   setDoc,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { app } from "../config";
 import { toast } from "react-toastify";
-import { fetchDocById } from "./fetch";
+import { fetchAllFirstNames, fetchDocById } from "./fetch";
 import { deleteDocument } from "./upload";
 // useRouter
 
@@ -25,6 +29,11 @@ const notify = (msg) => toast(msg);
 
 async function signUpWithEmail(email, password, userData) {
   try {
+    const existingFirstNames = await fetchAllFirstNames();
+
+    if (existingFirstNames.includes(userData.firstName)) {
+      throw new Error("Username already exists");
+    }
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
@@ -42,16 +51,29 @@ async function signUpWithEmail(email, password, userData) {
   }
 }
 
-async function signInWithEmail(email, password) {
+async function signInWithEmail(username, password) {
   try {
+    const q = query(
+      collection(db, "users"),
+      where("firstName", "==", username),
+      // where("password", "==", password)
+    );
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      notify("User not found or invalid credentials");
+    }
+
+    const userData = querySnapshot.docs[0].data();
+
     const userCredential = await signInWithEmailAndPassword(
       auth,
-      email,
-      password
+      userData.email,
+      password // Use the provided password, not userData.password
     );
+
     const user = userCredential.user;
-    const userData = { email: email, password: password };
-    await saveUserDataToUserDoc(email, userData);
+    await saveUserDataToUserDoc(userData.email, userData);
     localStorage.setItem("user", JSON.stringify(user));
     await fetchUserData();
     // location.reload();
@@ -160,7 +182,6 @@ const deleteUserAcc = async (email, pass) => {
     notify(`Successfully deleted ${user.email}.`);
 
     return true;
-
   } catch (error) {
     console.log("Error deleting user", error);
     notify(error.message); // Notify the user about the error
@@ -173,7 +194,7 @@ async function verifyAuth() {
 
   if (!storedUserData) {
     window.location.href = "/Signin";
-    console.log('go Signin')
+    console.log("go Signin");
     return null;
   }
 
@@ -190,12 +211,11 @@ async function verifyAuth() {
     localStorage.removeItem("user");
     localStorage.removeItem("userDoc");
     window.location.href = "/Signin";
-    console.log('go Signin')
+    console.log("go Signin");
 
     return null;
   }
 }
-
 
 export {
   signUpWithEmail,
@@ -206,5 +226,5 @@ export {
   logout,
   sendPasswordResetEmailLink,
   deleteUserAcc,
-  verifyAuth
+  verifyAuth,
 };

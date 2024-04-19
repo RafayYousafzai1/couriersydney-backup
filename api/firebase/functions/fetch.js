@@ -200,6 +200,27 @@ async function getBookingsBetweenDates(
   }
 }
 
+async function fetchAllFirstNames() {
+  try {
+    const q = query(collection(db, "users"));
+    const querySnapshot = await getDocs(q);
+
+    const firstNames = [];
+    querySnapshot.forEach(doc => {
+      const data = doc.data();
+      if (data.firstName) {
+        firstNames.push(data.firstName);
+      }
+    });
+
+    return firstNames;
+  } catch (error) {
+    console.error("Error fetching first names:", error);
+    throw error;
+  }
+}
+
+
 async function getPaidDocumentsFromCollection(collectionName) {
   try {
     const user = JSON.parse(localStorage.getItem("userDoc"));
@@ -231,5 +252,6 @@ export {
   getCollection,
   fetchOptions,
   getBookingsBetweenDates,
+  fetchAllFirstNames,
   getPaidDocumentsFromCollection,
 };
